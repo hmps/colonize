@@ -77,6 +77,12 @@
         "key": "ctrl+alt+enter",
         "mac": "ctrl+alt+enter",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "colonize.colonEndline",
+        "key": "shift+alt+enter",
+        "mac": "shift+alt+enter",
+        "when": "editorTextFocus"
       }
     ]
   }
