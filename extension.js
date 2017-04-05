@@ -1,6 +1,6 @@
 const vscode = require('vscode')
 
-function colonize (option) {
+function colonize (option, colon = false) {
   var editor = vscode.window.activeTextEditor
   if (!editor) return
 
@@ -10,8 +10,9 @@ function colonize (option) {
     var lineLength = lineObject.text.length
 
     if (lineObject.text.charAt(lineLength - 1) !== ';' && !lineObject.isEmptyOrWhitespace) {
+      var char = colon ? ',' : ';';
       var insertionSuccess = editor.edit((editBuilder) => {
-        editBuilder.insert(new vscode.Position(lineIndex, lineLength), ';')
+        editBuilder.insert(new vscode.Position(lineIndex, lineLength), char)
       })
 
       if (!insertionSuccess) return
@@ -38,9 +39,15 @@ function activate (context) {
     colonize('newline')
   })
 
+  var colonEndLineDisposable = vscode.commands.registerCommand('colonize.colonEndline', () => {
+    colonize('endline', true)
+  })
+  console.log(colonEndLineDisposable);
+
   context.subscriptions.push(endLineDisposable)
   context.subscriptions.push(newLineDisposable)
   context.subscriptions.push(holdDisposable)
+  context.subscriptions.push(colonEndLineDisposable)
 }
 
 exports.activate = activate
